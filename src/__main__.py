@@ -1,14 +1,9 @@
-import csv
 from datetime import datetime
 
-from .crawl import craw
+from .report.stackoverflow import StackOverflowReport
 
-results = craw()
-
-
-filename = str(datetime.utcnow())
-with open(f"./output/{filename}.csv", "w") as f:
-    writer = csv.writer(f, quoting=csv.QUOTE_MINIMAL)
-
-    writer.writerow(["No", "title", "content", "vote", "answer", "view"])
-    writer.writerows(results)
+StackOverflowReport(
+    numOfPage=1,
+    outputFile=f"./output/{str(datetime.utcnow())}.csv",
+    indexColumn="No",
+).saveAsCsv()
