@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from typing import List
 
 import requests
@@ -10,6 +11,8 @@ from .base import Report
 
 
 class StackOverflowReport(Report):
+    DEFAULT_PAGE_SIZE = 50
+
     def __init__(
         self,
         numOfPage=5,
@@ -29,11 +32,22 @@ class StackOverflowReport(Report):
     def getPage(self, page) -> Page:
         return Page(self.getPageSoup(page=page))
 
-    def getListQuestions(self) -> list:
+    def getListQuestions(self) -> List[Question]:
         results = []
-        for page in range(self.numOfPage):
-            results.extend(self.getPage(page + 1).getQuestionsAsList())
+        for page in range(
+            math.ceil(self.numOfPage * self.pageSize / self.DEFAULT_PAGE_SIZE)
+        ):
+            results.extend(self.getPage(page + 1).getQuestions())
         return results
+        # return [
+        #     *self.getPage(page + 1).getQuestions()
+        #     for page in range(
+        #         math.ceil(self.numOfPage * self.pageSize / self.DEFAULT_PAGE_SIZE)
+        #     )
+        # ]
+
+    def getListQuestionsAsList(self) -> List[list]:
+        return [question.asList() for question in self.getListQuestions()]
 
     def getParams(self, **kwargs):
         return {"tab": "newest", "pagesize": self.pageSize, **kwargs}
@@ -44,7 +58,7 @@ class StackOverflowReport(Report):
 
     @property
     def reportBody(self):
-        return self.getListQuestions()
+        return self.getListQuestionsAsList()
 
 
 class Page:
@@ -52,7 +66,9 @@ class Page:
         self.soup = soup
 
     def getQuestionTags(self) -> List[Tag]:
-        return self.soup.find_all("div", attrs={"class": "question-summary"})
+        return self.soup.find("div", attrs={"id": "questions"}).find_all(
+            "div", attrs={"class": "question-summary"}
+        )
 
     def getQuestions(self) -> List[Question]:
         return [Question(tag) for tag in self.getQuestionTags()]
