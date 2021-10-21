@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  learning-jenkins-server:
+    image: sihc/learning-jenkins:${IMAGE_TAG:-latest}
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    environment:
+      - CRAW_EVERY_SECONDS=600
+      - SOF_NUM_OF_PAGE=1
+      - SOF_INDEX_COLUMN=No
+    volumes:
+      - ../output:/output

@@ -18,14 +18,12 @@ class StackOverflowReport(Report):
         numOfPage=5,
         pageSize=15,
         url="https://stackoverflow.com/questions/tagged/python",
-        outputFile="output",
         indexColumn=None,
     ):
         super().__init__(
             numOfPage=numOfPage,
             pageSize=pageSize,
             url=url,
-            outputFile=outputFile,
             indexColumn=indexColumn,
         )
 

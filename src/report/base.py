@@ -12,11 +12,8 @@ class Report:
         numOfPage: int,
         pageSize: int,
         url: str,
-        outputFile="./output",
         indexColumn=None,
     ):
-        self.outputFile = outputFile
-
         self.url = url
         self.numOfPage = numOfPage
         self.pageSize = pageSize
@@ -35,7 +32,7 @@ class Report:
         raise NotImplementedError
         # return kwargs
 
-    def saveAsCsv(self):
+    def saveAsCsv(self, outputFile="./output/report.csv"):
         if self.indexColumn is not None:
             header = [self.indexColumn, *self.reportHeader]
             body = [[i + 1, *values] for i, values in enumerate(self.reportBody)]
@@ -48,7 +45,7 @@ class Report:
             logging.warning("Request %d insted of %d", len(body), body_len)
             body = body[:body_len]
 
-        with open(self.outputFile, "w") as f:
+        with open(outputFile, "w") as f:
             writer = csv.writer(f, quoting=csv.QUOTE_MINIMAL)
 
             writer.writerow(header)
