@@ -22,4 +22,6 @@ while True:
         )
     )
 
+    if settings.CRAW_EVERY_SECONDS is None:
+        break
     sleep(settings.CRAW_EVERY_SECONDS)
