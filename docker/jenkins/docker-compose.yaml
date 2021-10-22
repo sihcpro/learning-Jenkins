@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  leanrning-jenkins:
+    image: sihc/learning-jenkins-2:${IMAGE_TAG:-latest}
+    build:
+      context: ../../
+      dockerfile: docker/jenkins/Dockerfile
+    ports:
+      - 8080:8080
+      - 8443:8443
+      - 50000:50000
