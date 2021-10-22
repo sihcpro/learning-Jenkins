@@ -1,6 +1,6 @@
 from os import getenv
 
-CRAW_EVERY_SECONDS = int(getenv("CRAW_EVERY_SECONDS", None))
+CRAW_EVERY_SECONDS = int(getenv("CRAW_EVERY_SECONDS", 0))
 
 SOF_NUM_OF_PAGE = int(getenv("SOF_NUM_OF_PAGE", 5))
 SOF_PAGE_SIZE = int(getenv("SOF_PAGE_SIZE", 15))
