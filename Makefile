@@ -1,5 +1,6 @@
 IMAGE_NAME=sihc/learning-jenkins
 IMAGE_TAG?=latest
+NEW_TAG?=
 TARGET?=
 
 run:
@@ -12,6 +13,9 @@ clean:
 
 
 # Docker
+
+docker-link-release:
+	docker tag registry.gitlab.com/ap1n/${IMAGE_NAME}:${NEW_TAG} registry.gitlab.com/ap1n/${IMAGE_NAME}:latest
 
 docker-remove-unsue-image:
 	docker rmi $$(docker images --filter "dangling=true" -q --no-trunc) || TRUE
@@ -42,7 +46,7 @@ dc-build:
 
 dc-build-latest:
 	make dc-build IMAGE_TAG=${NEW_TAG} TARGET=${TARGET}
-	docker tag registry.gitlab.com/ap1n/${IMAGE_NAME}:${NEW_TAG} registry.gitlab.com/ap1n/${IMAGE_NAME}:latest
+	make docker-link-release NEW_TAG=${NEW_TAG}
 
 dc-push:
 	cd docker && \
