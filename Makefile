@@ -1,6 +1,6 @@
 IMAGE_NAME=sihc/learning-jenkins
 IMAGE_TAG?=latest
-NEW_TAG?=
+NEW_TAG?=latest
 TARGET?=
 
 run:
@@ -24,24 +24,24 @@ docker-remove-unsue-image:
 # Docker compose
 
 dc-up:
-	cd docker && \
+	cd docker/jenkins && \
 		IMAGE_TAG=${IMAGE_TAG} docker-compose up ${TARGET}
 
 dc-down:
-	cd docker && \
+	cd docker/jenkins && \
 		IMAGE_TAG=${IMAGE_TAG} docker-compose down ${TARGET}
 
 dc-update:
-	cd docker && \
+	cd docker/jenkins && \
 		IMAGE_TAG=${IMAGE_TAG} docker-compose up --detach ${TARGET}
 
 dc-build-update:
-	cd docker && \
+	cd docker/jenkins && \
 		IMAGE_TAG=${IMAGE_TAG} docker-compose up --detach --build ${TARGET}
 
 dc-build:
 	make clean
-	cd docker && \
+	cd docker/jenkins && \
 		IMAGE_TAG=${NEW_TAG} docker-compose build ${TARGET}
 
 dc-build-latest:
@@ -49,11 +49,11 @@ dc-build-latest:
 	make docker-link-release NEW_TAG=${NEW_TAG}
 
 dc-push:
-	cd docker && \
+	cd docker/jenkins && \
 		IMAGE_TAG=${IMAGE_TAG} docker-compose push ${TARGET}
 
 dc-pull:
-	cd docker && \
+	cd docker/jenkins && \
 		IMAGE_TAG=${IMAGE_TAG} docker-compose pull ${TARGET}
 
 dc-reup:
