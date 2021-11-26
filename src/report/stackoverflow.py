@@ -26,6 +26,7 @@ class StackOverflowReport(Report):
             url=url,
             indexColumn=indexColumn,
         )
+        self.reportSize = numOfPage * pageSize
 
     def getPage(self, page) -> Page:
         return Page(self.getPageSoup(page=page))
@@ -36,7 +37,7 @@ class StackOverflowReport(Report):
             math.ceil(self.numOfPage * self.pageSize / self.DEFAULT_PAGE_SIZE)
         ):
             results.extend(self.getPage(page + 1).getQuestions())
-        return results
+        return results[: self.reportSize]
         # return [
         #     *self.getPage(page + 1).getQuestions()
         #     for page in range(

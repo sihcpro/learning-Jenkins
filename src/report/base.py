@@ -32,7 +32,7 @@ class Report:
         raise NotImplementedError
         # return kwargs
 
-    def saveAsCsv(self, outputFile="./output/report.csv"):
+    def saveAsCsv(self, outputFile="./output/report.csv") -> str:
         if self.indexColumn is not None:
             header = [self.indexColumn, *self.reportHeader]
             body = [[i + 1, *values] for i, values in enumerate(self.reportBody)]
@@ -50,6 +50,7 @@ class Report:
 
             writer.writerow(header)
             writer.writerows(body)
+        return outputFile
 
     @property
     def reportHeader(self):

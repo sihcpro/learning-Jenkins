@@ -1,10 +1,18 @@
 version: "3.8"
 services:
   leanrning-jenkins:
-    image: sihc/learning-jenkins-2:${IMAGE_TAG:-latest}
+    image: sihc/learning-jenkins:latest
     build:
-      context: ../../
-      dockerfile: docker/jenkins/Dockerfile
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - USER=jenkins
+      - GROUP=jenkins
+    user: "${USER:-jenkins}:${GROUP:-jenkins}"
+    volumes:
+      - /workspace/jenkins_home/jobs:/var/jenkins_home/jobs
+      - /workspace/jenkins_home/users:/var/jenkins_home/users
+      - /workspace/jenkins_home/secrets:/var/jenkins_home/secrets
     ports:
       - 8080:8080
       - 8443:8443
